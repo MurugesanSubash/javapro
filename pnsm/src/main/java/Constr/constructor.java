@@ -30,7 +30,6 @@ public class constructor {
         constructor obj2 = new constructor(obj1);
 
         System.out.println("My name is "+obj2.name+"\nI am from "+obj2.Location+"\nAnd My address is "+obj2.Address+"\nThis is my mobile number "+obj2.number+ " \nAnd Also you can mail me on this id "+obj2.Email);
-
         
     }
 }
