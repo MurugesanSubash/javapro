@@ -44,7 +44,7 @@ public class Flight_Booking extends Flight_Info implements Methods_Project  {
             switch (Say) {
             case 1:
                 obj_FI2.Boarding_Flight();
-                // System.out.println("No of customer added " + VL.size());34n
+                System.out.println("No of customer added " + VL.size());
                 
                 break;
                 case 2:
