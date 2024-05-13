@@ -6,7 +6,7 @@ public class InnerWorkplace
 {
 
         static String name = "SubashNivi";
-+
+
 
         public void task ( String A, String B) 
         {

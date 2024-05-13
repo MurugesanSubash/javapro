@@ -4,7 +4,7 @@ import java.util.Scanner;
 
 public class Ticket_Booking  {
 
-    String Cus_Name;
+    String g;
     String d;
     int f;
 
