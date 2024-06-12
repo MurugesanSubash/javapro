@@ -3,12 +3,15 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.Serializable;
+import java.util.InputMismatchException;
 import java.util.Iterator;
 import java.util.Scanner;
 import java.util.Vector;
 
-public class Flight_Booking extends Flight_Info implements Methods_Project  {
+public class Flight_Booking extends Flight_Info implements Runnable {
 
 
     static Scanner scan =  new Scanner(System.in);
@@ -20,32 +23,36 @@ public class Flight_Booking extends Flight_Info implements Methods_Project  {
 
     // Adding info using collection
     @SuppressWarnings("unchecked")
-    public Flight_Booking(Customer_info vVV) {
+    public Flight_Booking(Customer_info vVV)  {
         VL.add(vVV);
         System.out.println(VL);
     }
     
     Flight_Booking(){
+        }
+
+    synchronized public void run(){
+        // throws IOException, ClassNotFoundException
+        Flight_Booking obj = new Flight_Booking();
         System.out.println("<<<-----Welcome to our flight ticket booking platform----->>>");
         System.out.println("* Do you want to book a ticket in our site * \n<<-- Press yes to enter \n<<-- Press no to exit");
-    }
-
-    public static void main(String[] args) throws IOException {
-        
-        Flight_Booking obj = new Flight_Booking();
+    
         Flight_Info2 obj_FI2 = new Flight_Info2();
+        // File location = new File("D:\\javapro\\pnsm\\file.txt");
+        // location.createNewFile();
+        // System.out.println(location.getName() + " has successfully created ");     
         
-        String Cus_in = scan.next();  
+        try{
+            String Cus_in = scan.next(); 
         if(Cus_in.equalsIgnoreCase("yes")){
             
             for(;;){
-            System.out.println(" Press 1 for booking \n press 2 for update the customer data \n press 3 for View Customer list \n Press 4 for payments ");
+            System.out.println(" Press 1 for booking \n press 2 for update the customer data \n press 3 for View Customer list \n Press 4 for payments \n Press 7 for EXIT from the programm");
             int Say = scan.nextInt();
             switch (Say) {
             case 1:
                 obj_FI2.Boarding_Flight();
                 System.out.println("No of customer added " + VL.size());
-                
                 break;
                 case 2:
                 updateVL();
@@ -56,19 +63,78 @@ public class Flight_Booking extends Flight_Info implements Methods_Project  {
                 case 4:
                 payments();
                 break;
-                case 5:
-                File location = new File("D:\\javapro\\pnsm\\file.txt");
-                location.createNewFile();
-                System.out.println(location.getName() + " has successfully created ");
-                FileOutputStream FOS = new FileOutputStream(location);
-                ObjectOutputStream OOS = new ObjectOutputStream(FOS);
-                OOS.writeObject(VL);
-                FOS.close();
-                OOS.close();
-                break;
+                // case 5:
+                // FileOutputStream FOS = new FileOutputStream(location);
+                // ObjectOutputStream OOS = new ObjectOutputStream(FOS);
+                // OOS.writeObject(VL);
+                // FOS.close();
+                // OOS.close();
+                // break;
+                // case 6:
+                // FileInputStream FIS = new FileInputStream(location);
+                // ObjectInputStream OIS = new ObjectInputStream(FIS);
+                // OIS.readObject();
+                // FIS.close();
+                // OIS.close();
+                // break;
+                case 7:
+                System.out.println("Thank you");
+                return;
                 }
             } }
+        }
+        catch(InputMismatchException INP){
+            System.out.println(INP);
+
+        //     System.out.println("Please use yes or no only");
+
+        //     try{
+        //         String Cus_in = scan.next(); 
+        // if(Cus_in.equalsIgnoreCase("yes")){
+            
+        //     for(;;){
+        //     System.out.println(" Press 1 for booking \n press 2 for update the customer data \n press 3 for View Customer list \n Press 4 for payments \n Press 7 for EXIT from the programm");
+        //     int Say = scan.nextInt();
+        //     switch (Say) {
+        //     case 1:
+        //         obj_FI2.Boarding_Flight();
+        //         System.out.println("No of customer added " + VL.size());
+        //         break;
+        //         case 2:
+        //         updateVL();
+        //         break;
+        //         case 3:
+        //         listVL();
+        //         break;
+        //         case 4:
+        //         payments();
+        //         break;
+        //         // case 5:
+        //         // FileOutputStream FOS = new FileOutputStream(location);
+        //         // ObjectOutputStream OOS = new ObjectOutputStream(FOS);
+        //         // OOS.writeObject(VL);
+        //         // FOS.close();
+        //         // OOS.close();
+        //         // break;
+        //         // case 6:
+        //         // FileInputStream FIS = new FileInputStream(location);
+        //         // ObjectInputStream OIS = new ObjectInputStream(FIS);
+        //         // OIS.readObject();
+        //         // FIS.close();
+        //         // OIS.close();
+        //         // break;
+        //         case 7:
+        //         System.out.println("Thank you");
+        //         return;
+        //         }
+        //     } }
+        //     }
+        //     catch(InputMismatchException In){
+        //         System.out.println(In);
+        //     }   
+        }
     }
+
     // public static void createfile() throws IOException{
         // File location = new File("D:\\javapro\\pnsm\\file.txt");
         // location.createNewFile();
@@ -86,6 +152,7 @@ public class Flight_Booking extends Flight_Info implements Methods_Project  {
         // FIS.close();
   
     //     }
+
     // Payment method using Vector
     public static void payments(){
         
@@ -104,8 +171,8 @@ public class Flight_Booking extends Flight_Info implements Methods_Project  {
                         System.out.println("This isC our UPI ID linked Number 9486411877");
                         int Send = scan.nextInt();
                         System.out.println("After Payment Wait for ticket conformation");
-                        if(Send==((Customer_info)VL.get(1)).getMoney()){
-                            ((Customer_info)VL.get(1)).setStatus("Payment Successfull");
+                        if(Send==((Customer_info)VL.get(i)).getMoney()){
+                            ((Customer_info)VL.get(i)).setStatus("Payment Successfull");
                             System.out.println("* Your ticket has Successfully Booked *");
                         }
                         else {System.out.println("Payment amount not matched / recived ");}
@@ -115,8 +182,8 @@ public class Flight_Booking extends Flight_Info implements Methods_Project  {
                         System.out.println("Bank Account number : 1247170000101492 \nIFSC code : KVBL0001247");
                         int Send = scan.nextInt();
                         System.out.println("After Payment Wait for ticket conformation");
-                        if(Send==((Customer_info)VL.get(1)).getMoney()){
-                            ((Customer_info)VL.get(1)).setStatus("Payment Successfull");
+                        if(Send==((Customer_info)VL.get(i)).getMoney()){
+                            ((Customer_info)VL.get(i)).setStatus("Payment Successfull");
                             System.out.println("* Your ticket has Successfully Booked *");
                         }
                         else {System.out.println("Payment amount not matched / recived ");}
@@ -127,7 +194,7 @@ public class Flight_Booking extends Flight_Info implements Methods_Project  {
         }
         listVL();
     }
-    // Veiw list 
+    // Veiw list collection
     public static void listVL(){
         Iterator it =VL.iterator();
         for(;it.hasNext();){

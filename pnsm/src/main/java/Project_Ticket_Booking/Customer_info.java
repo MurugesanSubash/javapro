@@ -1,6 +1,8 @@
 package Project_Ticket_Booking;
 
-public class Customer_info extends Flight_Info {
+import java.io.Serializable;
+
+public class Customer_info extends Flight_Info implements Serializable {
 
     public static Customer_info vVV;
     private String Name;
